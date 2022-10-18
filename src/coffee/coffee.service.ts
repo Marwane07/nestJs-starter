@@ -1,9 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from 'entities/coffee.entity';
+import { CreateCoffeeDto } from 'src/dto/create-coffee.dto';
+import { UpdateCoffeeDto } from 'src/dto/update-coffee.dto';
 
 @Injectable()
 export class CoffeeService {
-    private coffeeData: Coffee[] = [
+    private coffeeData: CreateCoffeeDto[] = [
         {
             id: 1,
             name: "Shipwreck Roast",
@@ -16,16 +18,16 @@ export class CoffeeService {
         return this.coffeeData
     }
 
-    findOne(id: string) {
-        return this.coffeeData.find(c => c.id == Number(id))
+    findOne(id: number) {
+        return this.coffeeData.find(c => c.id == id)
     }
 
-    create(createCoffee: Coffee) {
+    create(createCoffee: CreateCoffeeDto) {
         this.coffeeData.push(createCoffee);
         return this.coffeeData
     }
 
-    update(id: number, createCoffee: Partial<Coffee>) {
+    update(id: number, createCoffee: Partial<UpdateCoffeeDto>) { // Parital means all attributes are optional 
         let coffeeTemp = this.coffeeData.find(v => v.id == id)
         if (coffeeTemp) {
             for (const coffee of this.coffeeData) {
@@ -42,7 +44,7 @@ export class CoffeeService {
     }
 
     delete(id: number) {
-        this.coffeeData = this.coffeeData.filter(v => v.id !== Number(id))
+        this.coffeeData = this.coffeeData.filter(v => v.id !== id)
         return this.coffeeData
     }
 
