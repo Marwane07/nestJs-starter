@@ -1,2 +1,6 @@
-
-export class Coffee { id: number; name: string; brand: string; flavors : 'chocolate' | 'vanilla' }
+export class Coffee {
+    id: number;
+    name: string;
+    brand: string;
+    flavors: string[]
+}

@@ -3,41 +3,47 @@ import { Coffee } from 'entities/coffee.entity';
 
 @Injectable()
 export class CoffeeService {
-    data : Coffee[] = [
+    private coffeeData: Coffee[] = [
         {
-            id : 1, flavors : 'chocolate', brand : 'lhfd', name : '1MAR CHOC'
-        },
-        {
-            id : 2, flavors : 'vanilla', brand : 'straucks', name : '1MAR VAN'
-        },
-        {
-            id : 3, flavors : 'vanilla', brand : 'coffec', name : '1MAR Normal'
+            id: 1,
+            name: "Shipwreck Roast",
+            brand: "Buddy Brew",
+            flavors: ["vanilla", "chocolate"]
         }
     ];
-    deleteCoffee(id : number)  { 
-        let list = this.data.filter(obj => obj.id != id);
-        return list;
-    }
-    updateCoffee (id : number, coffee : Coffee){
-        const indexOfObject = this.data.findIndex(object => {
-            return object.id == id;
-          });
-          //console.log(indexOfObject);
-        this.data[indexOfObject].flavors = (coffee.flavors ?? this.data[indexOfObject].flavors);
-        this.data[indexOfObject].brand = coffee.brand;
-        this.data[indexOfObject].name = coffee.name;
-        return this.data;
+
+    findAll() {
+        return this.coffeeData
     }
 
-    getById(id : number)  { 
-        let coffee = this.data.find(obj => obj.id == id);
-        if(!coffee) throw new NotFoundException(`L'id : ${id}  n'existe pas`) // id +" Marwane"
-        return coffee;
+    findOne(id: string) {
+        return this.coffeeData.find(c => c.id == Number(id))
     }
 
-    saveCoffee(coffee : Coffee)  { 
-        this.data.push(coffee)
-        return this.data;
+    create(createCoffee: Coffee) {
+        this.coffeeData.push(createCoffee);
+        return this.coffeeData
+    }
+
+    update(id: number, createCoffee: Partial<Coffee>) {
+        let coffeeTemp = this.coffeeData.find(v => v.id == id)
+        if (coffeeTemp) {
+            for (const coffee of this.coffeeData) {
+                if (coffee.id == id) {
+                    coffee.flavors = createCoffee.flavors
+                    coffee.name = createCoffee.name
+                    coffee.brand = createCoffee.brand
+                }
+            }
+        } else {
+            throw new NotFoundException()
+        }
+        return this.coffeeData
+    }
+
+    delete(id: number) {
+        this.coffeeData = this.coffeeData.filter(v => v.id !== Number(id))
+        return this.coffeeData
     }
 
 }
