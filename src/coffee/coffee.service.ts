@@ -31,7 +31,7 @@ export class CoffeeService {
 
     getById(id : number)  { 
         let coffee = this.data.find(obj => obj.id == id);
-        if(!coffee) throw new NotFoundException()
+        if(!coffee) throw new NotFoundException(`L'id : ${id}  n'existe pas`) // id +" Marwane"
         return coffee;
     }
 
