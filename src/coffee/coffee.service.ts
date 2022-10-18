@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Coffee } from 'entities/coffee.entity';
 
 @Injectable()
@@ -31,8 +31,10 @@ export class CoffeeService {
 
     getById(id : number)  { 
         let coffee = this.data.find(obj => obj.id == id);
+        if(!coffee) throw new NotFoundException()
         return coffee;
     }
+
     saveCoffee(coffee : Coffee)  { 
         this.data.push(coffee)
         return this.data;
