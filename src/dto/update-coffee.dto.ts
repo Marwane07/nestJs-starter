@@ -1,6 +1,4 @@
-export class UpdateCoffeeDto {
-    id: number;
-    name: string;
-    brand: string;
-    flavors: string[]
-}
+import { CreateCoffeeDto } from './create-coffee.dto'; 
+import { PartialType } from "@nestjs/mapped-types";
+
+export class UpdateCoffeeDto extends PartialType(CreateCoffeeDto) { }
